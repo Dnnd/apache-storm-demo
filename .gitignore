@@ -1,0 +1,9 @@
+target/
+.flattened-pom.xml
+dependency-reduced-pom.xml
+project/
+.project
+.classpath
+.settings/
+venv/
+.vscode/

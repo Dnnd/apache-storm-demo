@@ -1,0 +1,53 @@
+version: '3.1'
+
+services:
+  zookeeper:
+    image: zookeeper
+    container_name: zookeeper
+    restart: always
+
+  nimbus:
+    image: storm:2.1.0
+    container_name: nimbus
+    command: storm nimbus
+    depends_on:
+      - zookeeper
+      - mqtt-broker
+    links:
+      - zookeeper
+    restart: always
+    ports:
+      - 6627:6627
+
+  supervisor:
+    image: py-storm:2.1.0
+    container_name: supervisor
+    command: storm supervisor 
+    depends_on:
+      - mqtt-broker
+      - nimbus
+      - zookeeper
+    links:
+      - nimbus
+      - zookeeper
+    restart: always
+  
+  storm-ui:
+    image: storm:2.1.0
+    container_name: storm_ui
+    command: storm ui
+    depends_on: 
+        - nimbus
+        - zookeeper
+    ports:
+      - 8080:8080
+    restart: always
+
+  mqtt-broker:
+    image: eclipse-mosquitto 
+    container_name: mqtt_broker
+    volumes:
+      - ./mqtt_broker/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    ports:
+      - 1883:1883
+    restart: always

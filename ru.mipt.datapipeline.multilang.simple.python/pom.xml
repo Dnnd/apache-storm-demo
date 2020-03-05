@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>ru.mipt.datapipeline</groupId>
+		<artifactId>datapipeline-parent</artifactId>
+		<version>${revision}</version>
+	</parent>
+	<artifactId>ru.mipt.datapipeline.multilang.simple.python</artifactId>
+	<name>MIPT :: Data Pipeline :: Python</name>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.storm</groupId>
+			<artifactId>storm-client</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.storm</groupId>
+			<artifactId>storm-server</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/python</directory>
+				<filtering>false</filtering>
+				<targetPath>resources</targetPath>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/requirements.txt</include>
+				</includes>
+				<filtering>false</filtering>
+				<targetPath>requirements/${project.groupId}/${project.artifactId}</targetPath>
+			</resource>
+		</resources>
+
+	</build>
+</project>
